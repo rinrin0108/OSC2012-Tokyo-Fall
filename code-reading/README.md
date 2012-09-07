@@ -31,7 +31,7 @@ This is the <b>Hello-liferay</b> portlet.
 
 - `<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>`
     - uriでどのカスタムタグを使用するかを設定
-        - "http://java.sun.com/portlet_2_0"はjavaの標準セット
+        - `"http://java.sun.com/portlet_2_0"`はjavaの標準セット
     - prefixで接頭語を設定
         - `<portlet:～>`で利用可能になる
 - `<portlet:defineObjects />`
@@ -56,18 +56,101 @@ liferay-versions=6.1.1
 - Liferayがモジュール（warファイル単位）を管理するためのプロパティを記述したファイル
 
 ### WEB-INF/liferay-display.xml
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE display PUBLIC "-//Liferay//DTD Display 6.1.0//EN" "http://www.liferay.com/dtd/liferay-display_6_1_0.dtd">
+
+<display>
+	<category name="category.sample">
+		<portlet id="hello-liferay" />
+	</category>
+</display>
+```
+
 - `<category name="category.sample">`
     - ポートレットのカテゴリを設定：「サンプル」
 - `<portlet id="hello-liferay" />`
     - ポートレットIDを設定：「hello-liferay」
 
 ### WEB-INF/liferay-portlet.xml
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 6.1.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_6_1_0.dtd">
+
+<liferay-portlet-app>
+	<portlet>
+		<portlet-name>hello-liferay</portlet-name>
+		<icon>/icon.png</icon>
+		<instanceable>false</instanceable>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
+		<css-class-wrapper>hello-liferay-portlet</css-class-wrapper>
+	</portlet>
+	<role-mapper>
+		<role-name>administrator</role-name>
+		<role-link>Administrator</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>guest</role-name>
+		<role-link>Guest</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>power-user</role-name>
+		<role-link>Power User</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>user</role-name>
+		<role-link>User</role-link>
+	</role-mapper>
+</liferay-portlet-app>
+```
+
 - `<css-class-wrapper>hello-liferay-portlet</css-class-wrapper>`
     - cssファイルに「`.hello-liferay-portlet{...}`」と書くことにより、そのスタイルを適用できる
 - `<role-mapper>～</role-mapper>`
     - ロールの定義
 
 ### WEB-INF/portlet.xml
+
+```xml
+<?xml version="1.0"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0">
+	<portlet>
+		<portlet-name>hello-liferay</portlet-name>
+		<display-name>Hello-liferay</display-name>
+		<portlet-class>com.liferay.util.bridges.mvc.MVCPortlet</portlet-class>
+		<init-param>
+			<name>view-template</name>
+			<value>/view.jsp</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>Hello-liferay</title>
+			<short-title>Hello-liferay</short-title>
+			<keywords>Hello-liferay</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+</portlet-app>
+```
+
 - `<portlet-class>com.liferay.util.bridges.mvc.MVCPortlet</portlet-class>`
     - JSPで指定できるActionクラスを設定
         - `<form action="<portlet:actionURL />" method="post">...</form>`とやるとここで指定したActionクラスが呼ばれる
@@ -79,8 +162,36 @@ liferay-versions=6.1.1
 ## hello-liferay-portlet2
 
 ### view.jsp
-- `<%@ taglib uri="[[http://liferay.com/tld/theme>liferay-theme.tld]]" prefix="liferay-theme" %>`
-    - "http://liferay.com/tld/theme"はliferayの標準セット
+
+```jsp
+<%
+/**
+ * Copyright (c) 2000-2012 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+%>
+
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+<%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+
+<portlet:defineObjects />
+<liferay-theme:defineObjects />
+
+This is the <b>Hello-liferay2</b> portlet.<br>
+Hello, <%= user.getScreenName() %>!<br>
+```
+
+- `<%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>`
+    - `"http://liferay.com/tld/theme"`はliferayの標準セット
 - `<liferay-theme:defineObjects />`
     - liferay-theme.tldで指定されたクラス「com.liferay.taglib.theme.DefineObjectsTag」のDefineObjectsメソッドが実行される
     - DefineObjectsメソッドでは、JSPのpageContextにログインユーザのインスタンスを「user」としてsetAttributeする
@@ -92,6 +203,80 @@ liferay-versions=6.1.1
 ## calc-portlet
 
 ### WEB-INF/src/Calc.java>Calc.java
+
+```java
+package com.helloliferay.portlet;
+
+import java.io.IOException;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.GenericPortlet;
+import javax.portlet.PortletContext;
+import javax.portlet.PortletException;
+import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequestDispatcher;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+public class Calc extends GenericPortlet {
+	public void init() throws PortletException {
+	}
+
+	public void doView(RenderRequest request, RenderResponse response) throws IOException, PortletException {
+		response.setContentType("text/html");
+		PortletContext context = getPortletContext();
+		String result = request.getParameter("result");
+		if(result == null) {
+			result = "";
+		}
+		request.setAttribute("result",result);
+		String textbox1 = request.getParameter("textbox1");
+		if(textbox1 == null) {
+			textbox1 = "";
+		}
+		request.setAttribute("textbox1",textbox1);
+		String textbox2 = request.getParameter("textbox2");
+		if(textbox2 == null) {
+			textbox2 = "";
+		}
+		request.setAttribute("textbox2",textbox2);
+		
+		PortletRequestDispatcher rd = context.getRequestDispatcher("/view.jsp");
+		rd.include(request, response);
+	}
+
+	public void processAction(ActionRequest request, ActionResponse response) throws IOException, PortletException {
+		String text1 = request.getParameter("textbox1");
+		String text2 = request.getParameter("textbox2");
+		String result;
+		
+		response.setRenderParameter("textbox1",text1);
+		response.setRenderParameter("textbox2",text2);
+		if(check(text1) && check(text2)){
+			result = String.valueOf(Double.parseDouble(text1) + Double.parseDouble(text2));
+			response.setRenderParameter("result",result);
+		}
+	}
+
+	private boolean check(String str) {
+		if(str == null){
+			System.out.println("empty");
+			return false;
+		}
+		try {
+			Double.parseDouble(str);
+		} catch(NumberFormatException e) {
+			System.out.println("not Numeric");
+			return false;
+		}
+		return true;
+	}
+}
+```
+
 - 展開先は、「WEB-INF/classes/com/helloliferay/portlet/Calc.class」
 - doViewメソッド
     - ポートレットの画面表示の際に自動的に実行されるメソッド
@@ -122,10 +307,88 @@ liferay-versions=6.1.1
     - それ以外ならtrueを返す
 
 ### WEB-INF/portlet.xml
+
+```xml
+<?xml version="1.0"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0">
+	<portlet>
+		<portlet-name>calc</portlet-name>
+		<display-name>Calc</display-name>
+		<portlet-class>com.helloliferay.portlet.Calc</portlet-class>
+		<init-param>
+			<name>view-template</name>
+			<value>/view.jsp</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>Calc</title>
+			<short-title>Calc</short-title>
+			<keywords>Calc</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+</portlet-app>
+```
+
 - `<portlet-class>com.helloliferay.portlet.Calc</portlet-class>`
     - Actionクラスを指定
 
 ### view.jsp
+
+```jsp
+<%
+/**
+ * Copyright (c) 2000-2012 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+%>
+
+
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+
+<jsp:useBean id="result" class="java.lang.String" scope="request" />
+<jsp:useBean id="textbox1" class="java.lang.String" scope="request" />
+<jsp:useBean id="textbox2" class="java.lang.String" scope="request" />
+
+<portlet:defineObjects />
+
+This is the <b>Calc</b> portlet.
+
+<form
+	action="<portlet:actionURL />"
+	method="post">
+<input type="textbox" name="textbox1" value="<%= textbox1 %>">
++
+<input type="textbox" name="textbox2" value="<%= textbox2 %>">
+<input type="submit" id="equalsButton" title="equals" value="=">
+<%= result %>
+</form>
+```
+
 - `<jsp:useBean id="result" class="java.lang.String" scope="request" />`
     - JSP内で使用するjavaBeansの宣言
     - id

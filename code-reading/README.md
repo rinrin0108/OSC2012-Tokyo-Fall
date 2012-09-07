@@ -22,7 +22,7 @@
 - `<portlet id="hello-liferay" />`
     - ポートレットIDを設定：「hello-liferay」
 
-### WEB-INF/liferay-portlet.xml ###
+### WEB-INF/liferay-portlet.xml
 - `<css-class-wrapper>hello-liferay-portlet</css-class-wrapper>`
     - cssファイルに「`.hello-liferay-portlet{...}`」と書くことにより、そのスタイルを適用できる
 - `<role-mapper>～</role-mapper>`

@@ -39,6 +39,20 @@ This is the <b>Hello-liferay</b> portlet.
         - ポートレットに必要な初期設定を行う
 
 ### WEB-INF/liferay-plugin-package.properties
+
+```text
+name=Hello-liferay
+module-group-id=liferay
+module-incremental-version=1
+tags=
+short-description=
+change-log=
+page-url=http://www.liferay.com
+author=Liferay, Inc.
+licenses=LGPL
+liferay-versions=6.1.1
+```
+
 - Liferayがモジュール（warファイル単位）を管理するためのプロパティを記述したファイル
 
 ### WEB-INF/liferay-display.xml

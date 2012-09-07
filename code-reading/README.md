@@ -40,7 +40,7 @@ This is the <b>Hello-liferay</b> portlet.
 
 ### WEB-INF/liferay-plugin-package.properties
 
-```text
+```properties
 name=Hello-liferay
 module-group-id=liferay
 module-incremental-version=1

@@ -202,7 +202,7 @@ Hello, <%= user.getScreenName() %>!<br>
 ----
 ## calc-portlet
 
-### WEB-INF/src/Calc.java>Calc.java
+### WEB-INF/src/Calc.java
 
 ```java
 package com.helloliferay.portlet;

@@ -2,6 +2,7 @@
 
 ----
 ## hello-liferay-portlet
+
 ### view.jsp
 - `<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>`
     - uriでどのカスタムタグを使用するかを設定
@@ -11,18 +12,22 @@
 - `<portlet:defineObjects />`
     - portlet_2_0.tldで指定されたクラス「org.apache.pluto.tags.DefineObjectsTag286」のdefineObjectsメソッドが実行される
         - ポートレットに必要な初期設定を行う
+
 ### WEB-INF/liferay-plugin-package.properties
 - Liferayがモジュール（warファイル単位）を管理するためのプロパティを記述したファイル
+
 ### WEB-INF/liferay-display.xml
 - `<category name="category.sample">`
     - ポートレットのカテゴリを設定：「サンプル」
 - `<portlet id="hello-liferay" />`
     - ポートレットIDを設定：「hello-liferay」
-### WEB-INF/liferay-portlet.xml
+
+### WEB-INF/liferay-portlet.xml ###
 - `<css-class-wrapper>hello-liferay-portlet</css-class-wrapper>`
     - cssファイルに「`.hello-liferay-portlet{...}`」と書くことにより、そのスタイルを適用できる
 - `<role-mapper>～</role-mapper>`
     - ロールの定義
+
 ### WEB-INF/portlet.xml
 - `<portlet-class>com.liferay.util.bridges.mvc.MVCPortlet</portlet-class>`
     - JSPで指定できるActionクラスを設定
@@ -33,6 +38,7 @@
 
 ----
 ## hello-liferay-portlet2
+
 ### view.jsp
 - `<%@ taglib uri="[[http://liferay.com/tld/theme>liferay-theme.tld]]" prefix="liferay-theme" %>`
     - "http://liferay.com/tld/theme"はliferayの標準セット
@@ -45,6 +51,7 @@
 
 ----
 ## calc-portlet
+
 ### WEB-INF/src/Calc.java>Calc.java
 - 展開先は、「WEB-INF/classes/com/helloliferay/portlet/Calc.class」
 - doViewメソッド
@@ -74,9 +81,11 @@
         - 数値チェック
         - Double型に変換できない＝数値でないなら、falseを返す
     - それ以外ならtrueを返す
+
 ### WEB-INF/portlet.xml
 - `<portlet-class>com.helloliferay.portlet.Calc</portlet-class>`
     - Actionクラスを指定
+
 ### view.jsp
 - `<jsp:useBean id="result" class="java.lang.String" scope="request" />`
     - JSP内で使用するjavaBeansの宣言
